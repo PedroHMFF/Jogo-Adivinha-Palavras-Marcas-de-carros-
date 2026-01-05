@@ -127,16 +127,49 @@ void editarMarcas() {
 
 void pesquisarMarcas() {
     char termo[50];
-    printf("Termo de pesquisa: ");
-    scanf(" %[^\n]", termo);
+    char termo_upper[50];
+    char nome_temp[100]; //variável para não estragar o nome original
+    int encontrou = 0;   //para saber se achou algo
+
+    printf("\n=== PESQUISAR MARCA ===\n");
+    printf("Digite o nome (ou parte dele): ");
+    scanf("%[^\n]", termo);
+    limpar_buffer();
+
+    //transforma o que o usuário digitou em MAIÚSCULAS
+    strcpy(termo_upper, termo);
+    to_upper_case(termo_upper);
+
+    printf("\n--- Resultados ---\n");
 
     for (int i = 0; i < total_marcas; i++) {
-        if (strstr(marcas[i].nome, termo) != NULL) {
-            printf("ID: %d | %s | %s | %s\n", 
-                   marcas[i].id, marcas[i].nome, marcas[i].pais, marcas[i].fama);
+        //aqui copia o nome da marca atual para uma variável temporária
+        strcpy(nome_temp, marcas[i].nome);
+        
+        //transforma essa cópia em MAIÚSCULAS
+        to_upper_case(nome_temp);
+
+        //compara tudo em maiúsculo 
+        if (strstr(nome_temp, termo_upper) != NULL) {
+            printf("ID: %d | %s | %s | Fama: %s\n", 
+                   marcas[i].id, 
+                   marcas[i].nome, 
+                   marcas[i].pais, 
+                   marcas[i].fama);
+            encontrou = 1; //avisa que achou pelo menos um
         }
     }
-}
+
+    //se rodou a lista toda e não achou nada, ele avisa
+    if (encontrou == 0) {
+        printf("Nenhuma marca encontrada para '%s'.\n", termo);
+    }
+
+    printf("------------------\n");
+    printf("Pressione Enter para voltar...");
+    limpar_buffer();
+    getchar();
+}//pesquisar marcas
 
 void excluirMarcas() {
     int id, idx = -1;
@@ -164,7 +197,7 @@ void excluirMarcas() {
 void jogar() {
     int dif = -1;
     do {
-        printf("\n1-Facil (Fama Alta)\n2-Medio (Fama Media)\n3-Dificil (Fama Baixa)\n0-Sair\nOpcao: ");
+        printf("\n1-Carros\n0-Sair\nOpcao: ");
         if (scanf("%d", &dif) != 1) {
             limpar_buffer();
             continue;
@@ -173,52 +206,68 @@ void jogar() {
     } while (dif != 0);
 }
 
-void jogo(int dif) {
-    srand(time(NULL));
-    if (total_marcas == 0) return;
+void jogo() {
+    // Semente para gerar números aleatórios diferentes a cada execução
+    srand(time(NULL)); 
 
-    int validas[MAX_MARCAS];
-    int qtd_validas = 0;
-    char filtro[15];
-
-    if (dif == 1) strcpy(filtro, "alta");
-    else if (dif == 2) strcpy(filtro, "media");
-    else strcpy(filtro, "baixa");
-
-    for (int i = 0; i < total_marcas; i++) {
-        if (strcasecmp(marcas[i].fama, filtro) == 0) {
-            validas[qtd_validas++] = i;
-        }
-    }
-
-    if (qtd_validas == 0) {
-        printf("Nenhuma marca com fama '%s' cadastrada.\n", filtro);
+    if (total_marcas == 0) {
+        printf("🚨 Erro: Nao ha marcas cadastradas para iniciar o jogo.\n");
         return;
     }
+    
+    int indice_sorteado = rand() % total_marcas; // Sorteia de 0 até total-1
+    Marcas marca_secreto = marcas[indice_sorteado]; 
+    
+    // Prepara o nome secreto para comparação (MAIÚSCULAS)
+    char nome_secreto_upper[50]; 
+    strcpy(nome_secreto_upper, marca_secreto.nome);
+    to_upper_case(nome_secreto_upper); 
+    
+    int tentativas_restantes = MAX_TENTATIVAS;
+    char palpite[50]; 
+    char palpite_upper[50];
 
-    int sorteado = validas[rand() % qtd_validas];
-    Marcas secreta = marcas[sorteado];
-    char secreta_up[50], palpite[50], palpite_up[50];
+    printf("\n--- ADIVINHE A MARCA DE CARRO ---\n");
+    printf("A marca secreta foi sorteada! Voce tem *%d tentativas*.\n", MAX_TENTATIVAS);
 
-    strcpy(secreta_up, secreta.nome);
-    to_upper_case(secreta_up);
-
-    int tentativas = MAX_TENTATIVAS;
-    while (tentativas > 0) {
-        printf("\nTentativas: %d\n", tentativas);
-        if (tentativas == 10) printf("DICA: Pais %s, Ano %d\n", secreta.pais, secreta.anoCriada);
-        if (tentativas <= 5) printf("DICA ESPECIAL: %s\n", secreta.dica_especial);
-
-        printf("Palpite: ");
-        scanf(" %[^\n]", palpite);
-        strcpy(palpite_up, palpite);
-        to_upper_case(palpite_up);
-
-        if (strcmp(palpite_up, secreta_up) == 0) {
-            printf("Acertou! %s\n", secreta.nome);
-            return;
+    while (tentativas_restantes > 0) {
+        printf("\nTentativas restantes: %d\n", tentativas_restantes);
+        
+        // Dicas
+        if (tentativas_restantes == MAX_TENTATIVAS) {
+            printf("💡 DICA 1: A marca foi criada no ano de %d, no pais %s.\n", marca_secreto.anoCriada, marca_secreto.pais);
+        } else if(tentativas_restantes == 8) {
+            size_t tamanho_nome = strlen(marca_secreto.nome);
+            printf("💡 DICA 2: O nome da marca tem %zu caracteres.\n", tamanho_nome);
+        } else if(tentativas_restantes == 6){
+            printf("💡 DICA 3: A marca tem uma fama %s no mundo.\n", marca_secreto.fama);
+        } else if (tentativas_restantes <= 4) { // Ajustei para mostrar a dica sempre que faltar 4 ou menos
+            printf("💡 DICA 4: %s.\n", marca_secreto.dica_especial);
         }
-        tentativas--;
+
+        // Palpite do usuario
+        printf("Seu palpite: ");
+    
+        if (scanf(" %[^\n]", palpite) != 1) { 
+            printf("Entrada invalida.\n");
+            limpar_buffer(); 
+            continue;
+        }
+
+        strcpy(palpite_upper, palpite);
+        to_upper_case(palpite_upper);
+
+        // Verificando
+        if (strcmp(palpite_upper, nome_secreto_upper) == 0) {
+            printf("\n🎉🎉 PARABENS! Voce adivinhou a marca: %s! 🎉🎉\n", marca_secreto.nome);
+            return;
+        } else {
+            printf("❌ Que pena, '%s' nao e a marca escolhida.\n", palpite);
+            tentativas_restantes--;
+        }
     }
-    printf("Fim! Era %s\n", secreta.nome);
+
+    // Fim de jogo
+    printf("\n--- 💔 FIM DE JOGO 💔 ---\n");
+    printf("A marca secreta era: %s\n", marca_secreto.nome);
 }
