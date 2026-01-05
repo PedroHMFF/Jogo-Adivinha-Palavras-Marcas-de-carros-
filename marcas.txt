@@ -1,5 +1,5 @@
 1|Toyota|Japao|1937|Alta|Dona do Corolla, o carro mais vendido da historia
-2|Volkswagen|Alemanha|1937|Alta|Seu nome significa "Carro do Povo" e criou o lendario Fusca
+2|Volkswagen|Alemanha|1937|Alta|Seu nome significa Carro do Povo e criou o lendario Fusca
 3|Ford|Estados Unidos|1903|Alta|Henry Ford revolucionou a industria com a linha de montagem
 4|Ferrari|Italia|1947|Alta|Famosa pela cor vermelha e pelo logotipo do Cavallino Rampante
 5|Honda|Japao|1948|Alta|Comecou fabricando aneis de pistao e e a maior fabricante de motos do mundo
@@ -17,7 +17,7 @@
 17|Peugeot|Franca|1896|Alta|Originalmente fabricava moedores de cafe e pimenta antes de carros
 18|Renault|Franca|1899|Alta|Famosa por fornecer motores campeoes para a Formula 1 por decadas
 19|Jeep|Estados Unidos|1941|Alta|Criada para uso militar na Segunda Guerra Mundial, sinonimo de off-road
-20|Subaru|Japao|1953|Media|Conhecida por seus motores "Boxer" e tracao integral simetrica
+20|Subaru|Japao|1953|Media|Conhecida por seus motores Boxer e tracao integral simetrica
 21|Mazda|Japao|1920|Media|Famosa por insistir e aperfeicoar o motor rotativo Wankel
 22|Land Rover|Reino Unido|1948|Alta|Referencia mundial em SUVs de luxo e veiculos para terrenos dificeis
 23|Jaguar|Reino Unido|1922|Alta|Conhecida por sedes de luxo e pelo logotipo do felino saltando

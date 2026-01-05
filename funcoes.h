@@ -5,9 +5,9 @@ typedef struct {
     int id;// id da marca, pra ficar facil de mexer
     char nome[50];// nome da marca
     char pais[30];// nome do pais que a marca foi criada
-    char fama;//fama entre baixa,media,alta, pra eu poder filtrar nos modos facil,medio e dificil
+    char fama[30];//fama entre baixa,media,alta, pra eu poder filtrar nos modos facil,medio e dificil
     int anoCriada;// ano que foi criada a marca
-    char dica_especial[100]; // Nova string para a dica
+    char dica_especial[300]; // Nova string para a dica
 } Marcas;//guardado os times
 
 void cadastrarMarcas();
