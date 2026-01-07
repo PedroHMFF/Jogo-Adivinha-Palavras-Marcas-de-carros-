@@ -8,6 +8,7 @@
 #define MAX_TENTATIVAS 10
 #define MAX_MARCAS 100
 #define ARQUIVO_MARCAS "marcas.txt"
+#define ARQUIVO_SAVE_B "dados.dat"
 
 Marcas marcas[MAX_MARCAS];
 int total_marcas = 0;
@@ -194,19 +195,23 @@ void excluirMarcas() {
     salvarMarcas();
 }
 
-void jogar() {
+void jogar(Save_dat *save_do_jogo) {
     int dif = -1;
     do {
+        printf("\n=== PLACAR ATUAL: %d vitorias | %d derrotas ===\n", 
+                save_do_jogo->vitorias, save_do_jogo->derrotas);
         printf("\n1-Carros\n0-Sair\nOpcao: ");
         if (scanf("%d", &dif) != 1) {
             limpar_buffer();
             continue;
+        }  
+        if (dif == 1) {
+            jogo(save_do_jogo); // Repassa o ponteiro para a função jogo
         }
-        if (dif >= 1 && dif <= 3) jogo(dif);
     } while (dif != 0);
-}
+}//void jogar
 
-void jogo() {
+void jogo(Save_dat *save_do_jogo) {
     // Semente para gerar números aleatórios diferentes a cada execução
     srand(time(NULL)); 
 
@@ -260,6 +265,8 @@ void jogo() {
         // Verificando
         if (strcmp(palpite_upper, nome_secreto_upper) == 0) {
             printf("\n🎉🎉 PARABENS! Voce adivinhou a marca: %s! 🎉🎉\n", marca_secreto.nome);
+            save_do_jogo->vitorias++;
+            salvarDados(save_do_jogo);
             return;
         } else {
             printf("❌ Que pena, '%s' nao e a marca escolhida.\n", palpite);
@@ -270,4 +277,50 @@ void jogo() {
     // Fim de jogo
     printf("\n--- 💔 FIM DE JOGO 💔 ---\n");
     printf("A marca secreta era: %s\n", marca_secreto.nome);
-}
+    save_do_jogo->derrotas++;
+    salvarDados(save_do_jogo);
+}//jogar
+
+void verificarSave(Save_dat *ponteiro_save){ 
+    Save_dat save;
+    FILE *arq = fopen(ARQUIVO_SAVE_B,"rb");
+
+    if (arq == NULL){
+        printf("Verificamos aqui e voce nao tem um save, criando um...\n");
+        criarSaveBinario();
+        ponteiro_save->derrotas = 0;
+        ponteiro_save->vitorias = 0;
+    }else{
+        printf("Voce ja tem um save!!\n");
+        fread(ponteiro_save,sizeof(Save_dat),1,arq);
+        fclose(arq);
+
+    }
+
+}//verificarSave
+
+void criarSaveBinario(){
+    Save_dat novo;
+    novo.derrotas = 0;
+    novo.vitorias = 0;
+    FILE *arqB = fopen(ARQUIVO_SAVE_B,"wb");
+
+    if (arqB == NULL){//verificando se da erro ao abrir
+        printf("Erro ao abrir o arquivo!\n");
+        exit(1);
+    }//if
+
+    fwrite(&novo,sizeof(Save_dat),1,arqB);
+    
+    
+}//Criar SaveBinario
+
+void salvarDados(Save_dat *s){
+    FILE *arq = fopen(ARQUIVO_SAVE_B,"wb");
+
+    fwrite(s,sizeof(Save_dat),1,arq);
+    
+    fclose(arq);
+
+
+}//salvar dados

@@ -6,9 +6,9 @@
 
 int main(){
     int opc = -1; 
-
+    Save_dat meu_save;
     carregarMarcas();
-
+    verificarSave(&meu_save);
     
     do { 
         printf("\n===== MENU ===== \n");
@@ -32,7 +32,7 @@ int main(){
         setbuf(stdin, NULL);
 
         switch (opc){
-            case 1 : printf("Chamando jogar()...\n"); jogar(); break;
+            case 1 : printf("Chamando jogar()...\n"); jogar(&meu_save); break;
             case 2 : printf("Chamando cadastrarMarcas()...\n"); cadastrarMarcas(); break;
             case 3 : printf("Chamando listarMarcas()...\n"); listarMarcas(); break;
             case 4 : printf("Chamando editarMarcas()...\n"); editarMarcas(); break;
