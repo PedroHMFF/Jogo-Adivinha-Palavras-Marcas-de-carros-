@@ -1,66 +1,40 @@
-🚗 Jogo de Adivinhação de Marcas (C)
-Um jogo interativo de console desenvolvido em Linguagem C onde o usuário deve adivinhar a marca de carro sorteada pelo sistema com base em dicas. O projeto conta com um sistema completo de CRUD (Create, Read, Update, Delete) para gerenciar as marcas e um sistema de persistência de dados (save game) em formato binário.
+# 🚗 Jogo de Adivinhação de Marcas (C)
 
-✨ Funcionalidades
-🕹️ Jogo de Adivinhação: Sorteio aleatório de marcas com sistema de dicas progressivas (Ano, País, Fama e Dica Especial).
+Este projeto é um jogo de console interativo desenvolvido em **Linguagem C**. O objetivo é adivinhar a marca de carro sorteada pelo sistema com base em dicas progressivas. O projeto demonstra o uso de manipulação de arquivos, structs e lógica de programação estruturada.
 
-📊 Sistema de Save: Gravação de vitórias e derrotas em um arquivo binário (dados.dat), garantindo que seu progresso não seja perdido ao fechar o jogo.
+---
 
-📝 Gerenciamento de Marcas:
+## ✨ Funcionalidades
 
-Cadastrar novas marcas de carros.
+* **🕹️ O Jogo:** Sorteio aleatório de marcas com sistema de dicas dinâmico (Ano, País, Fama e Dica Especial).
+* **📊 Sistema de Save:** Gravação de vitórias e derrotas em um arquivo binário (`dados.dat`), mantendo seu histórico salvo.
+* **📝 CRUD de Marcas:**
+    * **Cadastrar:** Adicione novas marcas ao banco de dados.
+    * **Listar:** Visualize todas as marcas cadastradas e seus IDs.
+    * **Editar/Excluir:** Gerencie os dados existentes de forma prática.
+    * **Pesquisar:** Busca inteligente (case-insensitive) por nome ou parte dele.
+* **💾 Persistência:** As marcas são salvas em um arquivo de texto (`marcas.txt`) para fácil manutenção e leitura.
 
-Listar todas as marcas cadastradas.
+---
 
-Editar informações de marcas existentes.
+## 🛠️ Tecnologias Utilizadas
 
-Excluir marcas da base de dados.
+* **Linguagem:** C (Padrão C99/C11)
+* **Bibliotecas:** `stdio.h`, `stdlib.h`, `string.h`, `time.h`, `ctype.h`
+* **Armazenamento:** * Arquivos de Texto (`.txt`) para o banco de dados.
+    * Arquivos Binários (`.dat`) para o save do jogador.
 
-Pesquisa inteligente (case-insensitive) por nome ou parte dele.
+---
 
-💾 Persistência em Texto: As marcas são armazenadas de forma formatada em um arquivo .txt para fácil leitura.
+## 🚀 Como Compilar e Executar
 
-🛠️ Tecnologias Utilizadas
-Linguagem C (Padrão C99/C11).
+Para rodar o projeto localmente, siga os passos abaixo:
 
-Bibliotecas Standard: stdio.h, stdlib.h, string.h, time.h, ctype.h.
+### 1. Pré-requisitos
+Ter um compilador C instalado (como GCC, MinGW ou Clang).
 
-Manipulação de Arquivos: Leitura/Escrita de arquivos de texto e binários.
-
-🚀 Como Executar
-Clone o repositório:
-
-Bash
-
-git clone https://github.com/seu-usuario/nome-do-repositorio.git
-Compile o projeto: Certifique-se de ter um compilador (como o GCC) instalado. No terminal, execute:
-
-Bash
-
+### 2. Compilação
+Abra o terminal na pasta do projeto e digite:
+```bash
 gcc main.c funcoes.c -o jogo_marcas
-Inicie o jogo:
 
-Bash
-
-./jogo_marcas
-📂 Estrutura de Arquivos
-main.c: Ponto de entrada do programa e controle do menu principal.
-
-funcoes.c: Implementação de toda a lógica do jogo e gerenciamento de dados.
-
-funcoes.h: Definição das estruturas (structs) e protótipos das funções.
-
-marcas.txt: Banco de dados das marcas cadastradas.
-
-dados.dat: Arquivo binário que armazena o histórico de pontuação do jogador.
-
-🎮 Como Jogar
-Ao iniciar, o jogo verificará se você possui um arquivo de progresso.
-
-Dica: Antes de jogar pela primeira vez, utilize a opção de Cadastrar Marca ou verifique se o arquivo marcas.txt contém dados.
-
-No menu de jogo, você receberá dicas conforme o número de tentativas restantes diminui.
-
-Tente adivinhar o nome exato da marca para vencer!
-
-Nota: Este projeto foi desenvolvido para fins de estudo sobre manipulação de strings, structs e arquivos em C.
